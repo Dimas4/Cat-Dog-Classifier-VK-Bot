@@ -1,0 +1,7 @@
+token: 
+backend: backend.vk.backend
+filename: image.jpg
+
+neural_network:
+  model_name: 0.001.model
+  image_size: [50, 50]

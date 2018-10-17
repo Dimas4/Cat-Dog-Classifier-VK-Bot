@@ -1,0 +1,9 @@
+.idea/
+venv
+*.pyc 
+*__pycache__/*
+*__pycache__*
+storage/
+test.py
+*.mp3
+image.jpg
