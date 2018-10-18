@@ -21,20 +21,25 @@ def start(token, backend, filename, MODEL_NAME, SIZE):
         if messages["count"] >= 1:
             id, message_id, body, url = bot.get_message_ids_image(messages)
             try:
-                image_url = bot.check_image_url(messages)
-            except IndexError:
-                bot.send_message(id, "Пришлите картинку")
-                time.sleep(1)
-                continue
 
-            urllib.request.urlretrieve(image_url, filename)
+                try:
+                    image_url = bot.check_image_url(messages)
+                except IndexError:
+                    bot.send_message(id, "Пришлите картинку")
+                    time.sleep(1)
+                    continue
 
-            data = image.prepare_image(filename, SIZE)
+                urllib.request.urlretrieve(image_url, filename)
 
-            outputs = MODEL.predict(data)
-            label = np.argmax(outputs)
-            image_class = 'кот/кошка' if label == 0 else 'собака'
+                data = image.prepare_image(filename, SIZE)
 
-            bot.send_message(id, f"Это {image_class}")
+                outputs = MODEL.predict(data)
+                label = np.argmax(outputs)
+                image_class = 'кот/кошка' if label == 0 else 'собака'
+
+                bot.send_message(id, f"Это {image_class}")
+            except Exception as e:
+                print(e)
+                bot.send_message(id, f"Я вас не понимаю")
 
         time.sleep(1)
